@@ -1,0 +1,47 @@
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        string value = "9729923302749217";
+        int specialDigit = CalculateSpecialDigit(value);
+        Console.WriteLine("Special Digit : " + specialDigit);
+    }
+    
+    static int CalculateSpecialDigit(string value)
+    {
+        int A = CalculateSum(value, 0, 5, 10);
+        int B = CalculateSum(value, 1, 5, 8);
+        int C = CalculateSum(value, 2, 5, 6);
+        int D = CalculateSum(value, 3, 5, 4);
+        int E = CalculateSum(value, 4, 5, 2);
+        int FSum = A + B + C + D + E;
+        
+        int specialDigit = 0;
+        while (FSum > 9) 
+        {
+            specialDigit = 0;
+            int tempFSum = FSum;
+            while (tempFSum > 0)
+            {
+                specialDigit += tempFSum % 10; // Sum the last digit
+                tempFSum /= 10; // Remove the last digit
+            }
+            FSum = specialDigit;
+        }
+
+        return FSum;
+    }
+
+    static int CalculateSum(string value, int startIndex, int step, int multiplier)
+    {
+        int sum = 0;
+        for (int i = startIndex; i < value.Length; i += step)
+        {
+            int digit = int.Parse(value[i].ToString());
+            sum += digit * multiplier;
+        }
+        return sum;
+    }
+}
