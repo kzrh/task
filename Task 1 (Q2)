@@ -1,0 +1,24 @@
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        double targetEMI = 750;
+        double BankInterestRate = 6.5;
+        int loanYears = 20;
+        
+        double loanAmount = CalculateLoanAmount(targetEMI, BankInterestRate / 100, loanYears);
+        double roundedLoanAmount = Math.Round(loanAmount, 2);
+        
+        Console.WriteLine("The loan amount can be borrow if the monthly payment of RM " + targetEMI + " is RM " + roundedLoanAmount +".");
+
+    }
+
+    static double CalculateLoanAmount(double EMI, double r, int n)
+    {
+        double monthlyRate = r / 12;
+        double term = Math.Pow(1 + monthlyRate, n * 12);
+        return EMI * (term - 1) / (monthlyRate * term);
+    }
+}
