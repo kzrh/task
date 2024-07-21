@@ -1,0 +1,24 @@
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        double principalAmt = 95000;
+        double BankInterestRate  = 6.5;
+        int loanYears = 5;
+       
+        double EMI = CalculateEMI(principalAmt, BankInterestRate / 100, loanYears);
+        double roundedEMI = Math.Round(EMI, 2);
+        
+        Console.WriteLine("The monthly repayment is RM " + roundedEMI);
+    }
+
+    static double CalculateEMI(double P, double r, int n)
+    {
+        // EMI formula: P * r/12 * (1 + r/12)^(n*12) / ((1 + r/12)^(n*12) - 1)
+        double monthlyRate = r / 12;
+        double term = Math.Pow(1 + monthlyRate, n * 12);
+        return P * monthlyRate * term / (term - 1);
+    }
+}
