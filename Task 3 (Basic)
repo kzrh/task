@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+
+public class Algorithm
+{
+    public static char[] OrderByAlgorithm(char[] input, int ordering)
+    {
+        List<char> result = new List<char>();
+        List<char> tempList = new List<char>(input);
+        int currentIndex = 0;
+        int stepCount = 0;
+
+        while (tempList.Count > 0)
+        {
+            // Calculate current index
+            currentIndex = (currentIndex + ordering - 1) % tempList.Count;
+
+            result.Add(tempList[currentIndex]);// Add the character
+            tempList.RemoveAt(currentIndex); // Remove the character 
+            stepCount++;
+            if (stepCount % 3 == 0 && tempList.Count > 0)
+            {
+                result.Add('-');
+            }
+        }
+        return result.ToArray();
+    }
+
+    public static void Main()
+    {
+        //Task 1 answer - Order 16
+        char[] input = "GHA14SFSD6K92".ToCharArray();
+        char[] output = OrderByAlgorithm(input, 16);
+        Console.WriteLine(new String(output)); 
+    }
+}
