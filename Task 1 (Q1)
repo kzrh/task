@@ -1,0 +1,50 @@
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        double principalAmt = 95000;
+        double BankInterestRate = 6.5;
+        double targetEMI = 1750;
+
+        double loanPeriod = FindLoanPeriod(principalAmt, BankInterestRate / 100, targetEMI);
+        
+        if (loanPeriod != -1)
+        {
+            Console.WriteLine($"The loan period (in years) : {loanPeriod:F2} years");
+            double EMI = CalculateEMI(principalAmt, BankInterestRate, loanPeriod);
+        }
+        else
+        {
+            Console.WriteLine("No suitable loan period found within the given range.");
+        }
+    }
+
+    static double CalculateEMI(double P, double r, double n)
+    {
+        // EMI formula: P * r/12 * (1 + r/12)^(n*12) / ((1 + r/12)^(n*12) - 1)
+        double monthlyRate = r / 12;
+        double term = Math.Pow(1 + monthlyRate, n * 12);
+        return P * monthlyRate * term / (term - 1);
+    }
+
+    static double FindLoanPeriod(double P, double r, double targetEMI)
+    {
+        double epsilon = 0.01; // Tolerance for precision
+        int maxLoanPeriod = 35; 
+
+        for (double period = 1; period <= maxLoanPeriod; period += 0.01)
+        {
+            double calEMI = CalculateEMI(P, r, period);
+            
+            if (calEMI <= targetEMI)
+            {
+                return period;
+            }
+        }
+
+        // If solution not found within specified range
+        return -1;
+    }
+}
